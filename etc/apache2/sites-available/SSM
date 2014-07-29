@@ -1,0 +1,53 @@
+        PerlModule ModPerl::Registry
+        DocumentRoot /var/www/modperl
+        PerlAddVar PUSH_MESSAGE "--------------"
+
+        <Location /printenv>
+                SetHandler perl-script
+                PerlResponseHandler SSM::PrintEnvironment
+                Options +ExecCGI
+        </Location>
+
+        <Location /isopen>
+                SetHandler perl-script
+                PerlResponseHandler SSM::Notify
+                PerlSetVar PUSH_MESSAGE "Garage Door Is Open"
+                Options +ExecCGI
+        </Location>
+
+        <Location /isclosed>
+                SetHandler perl-script
+                PerlResponseHandler SSM::Notify
+                PerlSetVar PUSH_MESSAGE "Garage Door Is Closed"
+                Options +ExecCGI
+        </Location>
+
+#        <Location /garagemonstart>
+#                SetHandler perl-script
+#                PerlResponseHandler SSM::Notify
+#                PerlSetVar PUSH_MESSAGE "Starting garagemon daemon"
+#                Options +ExecCGI
+#        </Location>
+
+        <Location /evaluateopen>
+                SetHandler perl-script
+                PerlResponseHandler SSM::EvalDoorPosition
+                PerlSetVar DOOR_POSITION "open"
+                Options +ExecCGI
+        </Location>
+
+        <Location /evaluatestillopen>
+                SetHandler perl-script
+                PerlResponseHandler SSM::Notify
+                PerlSetVar PUSH_MESSAGE "Garage Door Is Still Open"
+                Options +ExecCGI
+        </Location>        
+
+        <Location /evaluateclosed>
+                SetHandler perl-script
+                PerlResponseHandler SSM::EvalDoorPosition
+                PerlSetVar DOOR_POSITION "closed"
+                Options +ExecCGI
+        </Location>
+
+        
